@@ -1,0 +1,46 @@
+# The Resource HTML5 Starter Kit #
+
+## Contains
+	* Resource Directory Structure: Outlined in "Front End Development Standards & Best Practices" document
+	* SASS setup for projects with comments: Sass - Syntactically Awesome Stylesheets `v1.0`
+		* global.scss: Intended for global CSS `v1.0`
+		* ie.scss: IE Specific `v1.0`
+		* mixins.scss: global mixins (included on necessary *.scss files in this Starter Kit) `v1.0`
+		* modules.scss: Non-global CSS. Examples: "About Page Only" CSS or a non-resuable component `v1.0`
+		* 2 normalize versions:
+			1. normalize-full.scss: [necolas.github.com/normalize.css](http://necolas.github.com/normalize.css/) `v1.0`
+			2. normalize.scss: a customized version of normalize-full.scss `v1.0`
+		* spacing.scss: [spacing.scss v1.1](https://github.com/kevinmack18/SASS-Margin-and-Padding-Starter) `v1.0`
+		* styles.scss: Used for output of all css `v1.0`
+		* variables.scss: Global variables to be used  (included on necessary *.scss files in this Starter Kit) `v1.0`
+	* jquery [2 versions]
+		1. jQuery v1.9.1: [jquery-1-9-1-released](http://blog.jquery.com/2013/02/04/jquery-1-9-1-released/) `v1.0`
+			* CDN, with local minified version `v1.0`
+			* Includes both uncompressed and compressed `v1.0`
+		2. jQuery v1.8.3: [jquery-1-9-1-released](http://blog.jquery.com/2013/02/04/jquery-1-9-1-released/) `v1.1`
+			* CDN, with local minified version `v1.1`
+			* Includes both uncompressed and compressed `v1.1`
+	* Google Analytics placeholder `v1.0`
+	* Favicon placeholders: [ico creator](http://www.consultsarath.com/public-utilities/favicon.aspx) `v1.0`
+		* Updates for additional favicon placeholders for retina and different devices `v1.2`
+	* Apple Touch Icon placeholder: `v1.2`
+	* Open Graph placeholder (i.e.: For [Facebook](https://developers.facebook.com/docs/technical-guides/opengraph/opengraph-tutorial/)) `v1.0`
+	* Windows 8 Meta Data placeholder `v1.2`
+	* Twitter Meta Data placeholder `v1.2`
+	* Basic HTML5 structure (`<header />`, `<nav />`, `<section />`, `<article />`, `<footer />`): http://www.w3schools.com/html/html5_new_elements.asp `v1.0`
+		* `<hgroup />` removed `v1.2`
+	* Meta tags for description and keywords `v1.0`
+	* Meta viewport `v1.0`
+	* Meta tag for IE Chrome Frame `v1.0`
+	* HTML5 Shiv: http://paulirish.com/2011/the-history-of-the-html5-shiv/ `v1.0`
+	* .gitignore: Used for Git. Prevent unnecessary files to be committed by Eclipse, Visual Studio, Windows OS, Mac OS, Python, SVN, SASS, etc `v1.0`
+	* README.md: Outline and how to use README files `v1.0`
+	* robots.txt: Placeholder to allow all `v1.1`
+	* .htaccess: Basic setup from HTML5 Boilerplate `v1.1`
+	* Dev Build of Modernizr 2.6.2 `v1.2`
+
+## Versions
+	1. _HTML_Starter_Kit_v1.0 `v1.0`: Initial release. 02/12/2013
+	2. _HTML_Starter_Kit_v1.1 `v1.1`: Addition of robots.txt, .htaccess, added support for jQuery 1.8.3 (library added in "/lib" folder) 02/13/2013
+	3. _HTML_Starter_Kit_v1.2 `v1.2`: New meta tags for Twitter and Windows 8, removed `<hgroup/>`, dev build of Modernizr, updates to comments, changes some *.scss to partials
+	4. _HTML_Starter_Kit_v1.2.1 `v1.2.1`: Bug fix for `$(window)` to `window` in `main.js`

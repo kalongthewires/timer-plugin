@@ -1,0 +1,48 @@
+@import "mixins"; // Global mixins
+@import "variables"; // Global variables - includes global colors and spaces
+
+/* ==========================================================================
+   IE Specific CSS
+   ========================================================================== */
+
+/**
+ * IE-Specific identifiers if you need them:
+ * IE 6 specific properties selector: `html #nav li ul { }`
+ * IE 7 specific properties selector: `+html #nav li ul { }`
+ * Examples:
+   <pre>
+	.selector-name {
+	    color: black;
+	}
+	.selector-name {
+	    *color: blue; // IE6+7, doesn't work in IE8/9 as IE7
+	}
+	.selector-name {
+	    _color: red; // IE6
+	}
+	.selector-name {
+	    color: green \0/; // IE8+9
+	}
+	@media all and (min-width:0) {
+	    .selector-name {
+	    	color: pink \0/; // IE9-IE10pp4
+    	}
+	}
+   </pre>
+ */
+
+	[class*="lt-ie"] {
+		// All CSS for IE8 and below
+	}
+
+	.lt-ie9 {
+		// Less than IE9
+	}
+
+	.lt-ie8 {
+		// Less than IE8
+	}
+
+	.lt-ie7 {
+		// Less than IE7
+	}

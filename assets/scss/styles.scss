@@ -1,0 +1,17 @@
+/**
+ * This is used for output of all CSS.
+ * CSS selectors should not be added here.
+ * REMOVE: '@import "demo-only"'
+ */
+
+// @import "normalize-full"; // http://necolas.github.com/normalize.css/ This is not required, it uses the full normalize file
+@import "normalize"; // This is not required but it's a custom version of normalize-full.scss, it's bare bones.
+
+@import "global"; // Global Classes/Styles
+@import "modules"; // Module/Screen Specific Styling
+
+/* ==========================================================================
+   TIMER STYLING
+   ========================================================================== */
+
+@import "timer";
