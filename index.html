@@ -1,8 +1,5 @@
 <!doctype html>
-<!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7"><![endif]-->
-<!--[if IE 7]><html class="lt-ie9 lt-ie8"><![endif]-->
-<!--[if IE 8]><html class="lt-ie9"><![endif]-->
-<!--[if gt IE 8]><!--><html><!--<![endif]-->
+<html>
 	<head>
 		<meta charset="utf-8" />
 
@@ -12,17 +9,10 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 
 		<title>Timer</title>
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
 
 		<link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
-		<link rel="stylesheet" href="assets/css/styles.css" />
-
-		<!--[if lt IE 9]>
-			<script src="assets/js/lib/html5shiv.js"></script>
-		<![endif]-->
-		<!--[if IE]><link rel="stylesheet" type="text/css" href="assets/css/ie.css" /><![endif]-->
+		<link rel="stylesheet" href="style.css" />
 
 	</head>
 	<body>
@@ -36,23 +26,18 @@
 	                <input type="button" class="button" id="decrement" value="-" />
 	            </div>
 	            <div id="time">
-	                <div id="hours"></div> :
-	                <div id="mins"></div> :
-	                <div id="secs"></div>
 	            </div>
 	            <div class="button-panel">
 	                <input type="button" class="button" id="start" value="Start" />
 	                <input type="button" class="button" id="stop-clear" value="Stop/Clear" />
 	            </div>
-	            <audio id="audio" src="assets/media/Arai_Akino_Kirei_na_Kanjou.ogg" preload="auto"></audio>
 	        </div>
-			
+
 		</div>
 
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<script>window.jQuery || document.write('<script src="assets/js/lib/jquery.min.js"><\/script>')</script>
 		<!-- Additional JS Libraries and Frameworks Here -->
-		<script src="assets/js/main.js"></script>
+		<script src="timer.js"></script>
+		<script src="demo.js"></script>
 
 	</body>
 </html>
