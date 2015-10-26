@@ -2,8 +2,14 @@
 
 function Timer (options) {
     this.time = options.startTime || 0;
-    this.timerId = options.timerId || 'timer';
     this.interval = options.interval * 1000 || 1000;
+
+    this.timerId = options.timerId || 'timer';
+    this.incrementId = options.incrementId || 'increment';
+    this.decrementId = options.decrementId || 'decrement';
+    this.startId = options.startId || 'start';
+    this.stopId = options.stopId || 'stop-clear';
+
     this.countdownInterval = null,
     this.isRunning = false;
 }
@@ -13,7 +19,18 @@ Timer.prototype = {
     init: function () {
         var timer = this;
 
+        timer.attachEvents();
         timer.setTimeSeconds(timer.time);
+    },
+    attachEvents: function () {
+        var timer = this;
+
+        document.getElementById(timer.incrementId).addEventListener('mousedown', timer.incrementTime.bind(timer), false);
+        document.getElementById(timer.decrementId).addEventListener('mousedown', timer.decrementTime.bind(timer), false);
+        document.getElementById(timer.incrementId).addEventListener('mouseup', timer.stopChangeTime.bind(timer), false);
+        document.getElementById(timer.decrementId).addEventListener('mouseup', timer.stopChangeTime.bind(timer), false);
+        document.getElementById(timer.startId).addEventListener('click', timer.start.bind(timer), false);
+        document.getElementById(timer.stopId).addEventListener('click', timer.stop.bind(timer), false);
     },
     setTimeSeconds: function (timeInSeconds) {
         var timer = this;
@@ -24,25 +41,40 @@ Timer.prototype = {
     setTimeMinutes: function () {
         // TODO
     },
+    // TODO: use better pattern to avoid repetition in increment and decrement functions
     incrementTime: function () {
-        var timer = this;
+        var timer = this,
+            incrementSpeed = 100;
 
-        // TODO: increment quickly on click and hold
         if (!timer.isRunning) {
             timer.time += timer.interval;
             timer.displayTime(timer.time);
+
+            timer.timeoutId = window.setTimeout(function() {
+                timer.incrementTime();
+            }, incrementSpeed);
         }
     },
     decrementTime: function () {
-        var timer = this;
+        var timer = this,
+            decrementSpeed = 100;
 
         // TODO: decrement quickly on click and hold
         if (!timer.isRunning && timer.time > 0) {
             timer.time -= timer.interval;
             timer.displayTime(timer.time);
+
+            timer.timeoutId = window.setTimeout(function() {
+                timer.decrementTime();
+            }, decrementSpeed);
         }
     },
-    start: function () {
+    stopChangeTime: function () {
+        var timer = this;
+
+        clearTimeout(timer.timeoutId);
+    },
+    start: function (e) {
         var timer = this;
 
         if (!timer.isRunning) {
