@@ -1,5 +1,3 @@
-'use strict';
-
 function Timer (options) {
     this.time = options.startTime || 0;
     this.interval = options.interval * 1000 || 1000;
@@ -10,7 +8,7 @@ function Timer (options) {
     this.startId = options.startId || 'start';
     this.stopId = options.stopId || 'stop-clear';
 
-    this.countdownInterval = null,
+    this.countdownInterval = null;
     this.isRunning = false;
 }
 
@@ -38,13 +36,10 @@ Timer.prototype = {
         timer.time = timeInSeconds * 1000;
         timer.displayTime(timer.time);
     },
-    setTimeMinutes: function () {
-        // TODO
-    },
     // TODO: use better pattern to avoid repetition in increment and decrement functions
     incrementTime: function () {
         var timer = this,
-            incrementSpeed = 100;
+            incrementSpeed = 150;
 
         if (!timer.isRunning) {
             timer.time += timer.interval;
@@ -57,9 +52,8 @@ Timer.prototype = {
     },
     decrementTime: function () {
         var timer = this,
-            decrementSpeed = 100;
+            decrementSpeed = 150;
 
-        // TODO: decrement quickly on click and hold
         if (!timer.isRunning && timer.time > 0) {
             timer.time -= timer.interval;
             timer.displayTime(timer.time);
@@ -139,5 +133,3 @@ Timer.prototype = {
         document.getElementById(timer.timerId).innerHTML = timer.convertTime(timer.time);
     }
 };
-
-// TODO: Interval timer option; set callback to allow user to play sounds, etc. when timer finishes
