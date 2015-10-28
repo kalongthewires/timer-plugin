@@ -39,31 +39,33 @@ Timer.prototype = {
 		timer.time = timeInSeconds * 1000;
 		timer.displayTime(timer.time);
 	},
-	// TODO: use better pattern to avoid repetition in increment and decrement functions
 	incrementTime: function () {
 		var timer = this,
-			incrementSpeed = 150;
+			increment = function (time) {
+				return time + timer.interval;
+			};
 
-		if (!timer.isRunning) {
-			timer.time += timer.interval;
-			timer.displayTime(timer.time);
-
-			timer.timeoutId = window.setTimeout(function() {
-				timer.incrementTime();
-			}, incrementSpeed);
-		}
+		timer.changeTime(timer, increment);
 	},
 	decrementTime: function () {
 		var timer = this,
-			decrementSpeed = 150;
+			decrement = function (time) {
+				return time >= timer.interval ? time - timer.interval : 0;
+			};
 
-		if (!timer.isRunning && timer.time > 0) {
-			timer.time -= timer.interval;
+		timer.changeTime(timer, decrement);
+	},
+	changeTime: function (context, changeFunction) {
+		var timer = this,
+			speed = 150;
+
+		if (!timer.isRunning) {
+			timer.time = changeFunction(timer.time);
+
 			timer.displayTime(timer.time);
-
-			timer.timeoutId = window.setTimeout(function() {
-				timer.decrementTime();
-			}, decrementSpeed);
+			timer.timeoutId = window.setTimeout(function () {
+				timer.changeTime();
+			}, speed);
 		}
 	},
 	stopChangeTime: function () {
@@ -84,18 +86,21 @@ Timer.prototype = {
 
 		clearInterval(timer.countdownInterval);
 	},
-	stop: function () {
+	stop: function (callback) {
 		var timer = this;
 
 		clearInterval(timer.countdownInterval);
 		timer.isRunning = false;
 		timer.reset();
+
+		if (callback) {
+			callback(timer);
+		}
 	},
 	reset: function () {
 		var timer = this;
 
-		timer.time = 0;
-		timer.displayTime(timer.time);
+		timer.setTimeSeconds(0);
 	},
 	countdown: function (callback) {
 		var timer = this,
@@ -109,17 +114,11 @@ Timer.prototype = {
 			timer.time = initialTimerSetting - timeElapsed;
 
 			if (timer.time <= 0) {
-				timer.stop();
-
-				if (callback) {
-					callback(timer);
-				}
-
+				timer.stop(callback);
 				return;
 			}
 
 			timer.displayTime(timer.time);
-
 		}, 100);
 	},
 	convertTime: function (milliseconds) {
