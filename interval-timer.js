@@ -16,6 +16,31 @@ function IntervalTimer(options) {
 
 IntervalTimer.prototype = Object.create(Timer.prototype, {
 	constructor: IntervalTimer,
+	incrementTime: {
+		value: function () {
+			var timer = this;
+
+			Timer.prototype.incrementTime.call(timer);
+			timer.secondsPerInterval = timer.time / 1000;
+		}
+	},
+	decrementTime: {
+		value: function () {
+			var timer = this;
+
+			Timer.prototype.decrementTime.call(timer);
+			timer.secondsPerInterval = timer.time / 1000;
+		}
+	},
+	start: {
+		value: function () {
+			var timer = this;
+
+			if (timer.secondsPerInterval > 0) {
+				Timer.prototype.start.call(timer);
+			}
+		}
+	},
 	countdown: {
 		value: function () {
 			var timer = this;
@@ -23,7 +48,7 @@ IntervalTimer.prototype = Object.create(Timer.prototype, {
 			Timer.prototype.countdown.call(timer, timer.endInterval);
 		}
 	},
-	resetTimer: {
+	restartTimer: {
 		value: function () {
 			var timer = this,
 				timeToSet = timer.isBreak ? timer.secondsPerInterval : timer.breakTimeInSeconds;
@@ -44,7 +69,7 @@ IntervalTimer.prototype = Object.create(Timer.prototype, {
 			}
 
 			if (timer.numIntervals > 0) {
-				timer.resetTimer();
+				timer.restartTimer();
 			}
 		}
 	}

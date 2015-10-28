@@ -45,7 +45,7 @@ Timer.prototype = {
 				return time + timer.interval;
 			};
 
-		timer.changeTime(timer, increment);
+		timer.changeTime(increment);
 	},
 	decrementTime: function () {
 		var timer = this,
@@ -53,9 +53,9 @@ Timer.prototype = {
 				return time >= timer.interval ? time - timer.interval : 0;
 			};
 
-		timer.changeTime(timer, decrement);
+		timer.changeTime(decrement);
 	},
-	changeTime: function (context, changeFunction) {
+	changeTime: function (changeFunction) {
 		var timer = this,
 			speed = 150;
 
@@ -64,7 +64,7 @@ Timer.prototype = {
 
 			timer.displayTime(timer.time);
 			timer.timeoutId = window.setTimeout(function () {
-				timer.changeTime();
+				timer.changeTime(changeFunction);
 			}, speed);
 		}
 	},
