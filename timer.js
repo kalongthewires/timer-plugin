@@ -93,7 +93,7 @@ Timer.prototype = {
 		timer.isRunning = false;
 		timer.reset();
 
-		if (callback) {
+		if (typeof callback === "function") {
 			callback(timer);
 		}
 	},
