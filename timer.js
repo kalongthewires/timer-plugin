@@ -1,6 +1,7 @@
-'use strict';
+'use strict'; // needs to be in an IFFE
 
 function Timer (options) {
+	options = options || {};
 	this.time = options.startTime || 0;
 	this.interval = options.interval * 1000 || 1000;
 
@@ -10,7 +11,7 @@ function Timer (options) {
 	this.startId = options.startId || 'start';
 	this.stopId = options.stopId || 'stop-clear';
 
-	this.countdownInterval = null;
+	this.countdownInterval = null; // switch to undefined?
 	this.isRunning = false;
 	this.onStopCallbacks = [];
 }
@@ -26,17 +27,26 @@ Timer.prototype = {
 	attachEvents: function () {
 		var timer = this;
 
+		// queryselectall
+		// <div data-time-changer or something
+		// pass the container element and then look in container for the data-attributes that are needed
 		document.getElementById(timer.incrementId).addEventListener('mousedown', timer.incrementTime.bind(timer), false);
 		document.getElementById(timer.decrementId).addEventListener('mousedown', timer.decrementTime.bind(timer), false);
 		document.getElementById(timer.incrementId).addEventListener('mouseup', timer.stopChangeTime.bind(timer), false);
 		document.getElementById(timer.decrementId).addEventListener('mouseup', timer.stopChangeTime.bind(timer), false);
 		document.getElementById(timer.startId).addEventListener('click', timer.start.bind(timer), false);
-		document.getElementById(timer.stopId).addEventListener('click', timer.stop.bind(timer), false);
+		document.getElementById(timer.stopId).addEventListener('click',  timer.stop.bind(timer), false); // function () { timer.stop(); } need solution to avoid sometimes passing event
+
+		/*
+			timer.stopElem.addEventListener('click', function () {
+				timer.stop();
+			}, false);
+		 */
 	},
 	setTimeSeconds: function (timeInSeconds) {
 		var timer = this;
 
-		timer.time = timeInSeconds * 1000;
+		timer.time = timeInSeconds * 1000; // add a constant for milliseconds instead of using 1000
 		timer.displayTime(timer.time);
 	},
 	incrementTime: function () {
@@ -59,14 +69,14 @@ Timer.prototype = {
 		var timer = this,
 			speed = 150;
 
-		if (!timer.isRunning) {
-			timer.time = changeFunction(timer.time);
+		if (timer.isRunning) { return; }
 
-			timer.displayTime(timer.time);
-			timer.timeoutId = window.setTimeout(function () {
-				timer.changeTime(changeFunction);
-			}, speed);
-		}
+		timer.time = changeFunction(timer.time);
+
+		timer.displayTime(timer.time);
+		timer.timeoutId = window.setTimeout(function () {
+			timer.changeTime(changeFunction);
+		}, speed);
 	},
 	stopChangeTime: function () {
 		var timer = this;
@@ -76,6 +86,7 @@ Timer.prototype = {
 	start: function () {
 		var timer = this;
 
+		// guard clause
 		if (!timer.isRunning) {
 			timer.countdown();
 			timer.isRunning = true;
@@ -93,7 +104,8 @@ Timer.prototype = {
 		timer.isRunning = false;
 		timer.reset();
 
-		if (typeof callback === "function") {
+		// Let this blow up
+		if (callback) {
 			callback(timer);
 		}
 	},
@@ -132,7 +144,8 @@ Timer.prototype = {
 		return [hours, minutes, seconds].join(":");
 	},
 	formatWithLeadingZero: function (time) {
-		return time < 10 ? "0" + time : time;
+		// This returns multiple data types depending on args
+		return (time < 10 ? "0" : "") + time; // + ""; <-- consider adding so always string format
 	},
 	displayTime: function () {
 		var timer = this;
