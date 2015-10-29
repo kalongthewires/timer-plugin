@@ -2,18 +2,21 @@
 
 function Timer (options) {
 	options = options || {};
+	this.timerContainerSelector = options.timerContainer || '[data-timer]';
+	this.timerContainer = document.querySelector(this.timerContainerSelector);
+
 	this.time = options.startTime || 0;
-	this.interval = options.interval * 1000 || 1000;
-
-	this.timerId = options.timerId || 'timer';
-	this.incrementId = options.incrementId || 'increment';
-	this.decrementId = options.decrementId || 'decrement';
-	this.startId = options.startId || 'start';
-	this.stopId = options.stopId || 'stop-clear';
-
-	this.countdownInterval = null; // switch to undefined?
+	this.changeTimeInterval = options.changeTimeInterval * 1000 || 1000;
 	this.isRunning = false;
-	this.onStopCallbacks = [];
+
+	this.countdownIntervalId;
+	this.MILLIS_PER_SECOND = 1000;
+
+	this.timeDisplay = this.timerContainer.querySelector('[data-time-display]');
+	this.incrementElem = this.timerContainer.querySelector('[data-time-changer=increment]');
+	this.decrementElem = this.timerContainer.querySelector('[data-time-changer=decrement]');
+	this.startElem = this.timerContainer.querySelector('[data-start]');
+	this.stopElem = this.timerContainer.querySelector('[data-stop]');
 }
 
 Timer.prototype = {
@@ -27,32 +30,25 @@ Timer.prototype = {
 	attachEvents: function () {
 		var timer = this;
 
-		// queryselectall
-		// <div data-time-changer or something
-		// pass the container element and then look in container for the data-attributes that are needed
-		document.getElementById(timer.incrementId).addEventListener('mousedown', timer.incrementTime.bind(timer), false);
-		document.getElementById(timer.decrementId).addEventListener('mousedown', timer.decrementTime.bind(timer), false);
-		document.getElementById(timer.incrementId).addEventListener('mouseup', timer.stopChangeTime.bind(timer), false);
-		document.getElementById(timer.decrementId).addEventListener('mouseup', timer.stopChangeTime.bind(timer), false);
-		document.getElementById(timer.startId).addEventListener('click', timer.start.bind(timer), false);
-		document.getElementById(timer.stopId).addEventListener('click',  timer.stop.bind(timer), false); // function () { timer.stop(); } need solution to avoid sometimes passing event
-
-		/*
-			timer.stopElem.addEventListener('click', function () {
-				timer.stop();
-			}, false);
-		 */
+		timer.incrementElem.addEventListener('mousedown', timer.incrementTime.bind(timer), false);
+		timer.incrementElem.addEventListener('mouseup', timer.stopChangeTime.bind(timer), false);
+		timer.decrementElem.addEventListener('mousedown', timer.decrementTime.bind(timer), false);
+		timer.decrementElem.addEventListener('mouseup', timer.stopChangeTime.bind(timer), false);
+		timer.startElem.addEventListener('click', timer.start.bind(timer), false);
+		timer.stopElem.addEventListener('click',  function () {
+			timer.stop();
+		}, false);
 	},
 	setTimeSeconds: function (timeInSeconds) {
 		var timer = this;
 
-		timer.time = timeInSeconds * 1000; // add a constant for milliseconds instead of using 1000
+		timer.time = timeInSeconds * timer.MILLIS_PER_SECOND;
 		timer.displayTime(timer.time);
 	},
 	incrementTime: function () {
 		var timer = this,
 			increment = function (time) {
-				return time + timer.interval;
+				return time + timer.changeTimeInterval;
 			};
 
 		timer.changeTime(increment);
@@ -60,7 +56,7 @@ Timer.prototype = {
 	decrementTime: function () {
 		var timer = this,
 			decrement = function (time) {
-				return time >= timer.interval ? time - timer.interval : 0;
+				return time >= timer.changeTimeInterval ? time - timer.changeTimeInterval : 0;
 			};
 
 		timer.changeTime(decrement);
@@ -86,25 +82,23 @@ Timer.prototype = {
 	start: function () {
 		var timer = this;
 
-		// guard clause
-		if (!timer.isRunning) {
-			timer.countdown();
-			timer.isRunning = true;
-		}
+		if (timer.isRunning) { return; }
+
+		timer.countdown();
+		timer.isRunning = true;
 	},
 	pause: function () {
 		var timer = this;
 
-		clearInterval(timer.countdownInterval);
+		clearInterval(timer.countdownIntervalId);
 	},
 	stop: function (callback) {
 		var timer = this;
 
-		clearInterval(timer.countdownInterval);
+		clearInterval(timer.countdownIntervalId);
 		timer.isRunning = false;
 		timer.reset();
 
-		// Let this blow up
 		if (callback) {
 			callback(timer);
 		}
@@ -120,7 +114,7 @@ Timer.prototype = {
 			startSystemClockTime = new Date().getTime(),
 			timeElapsed = 0;
 
-		timer.countdownInterval = window.setInterval(function () {
+		timer.countdownIntervalId = window.setInterval(function () {
 			timeElapsed = new Date().getTime() - startSystemClockTime;
 
 			timer.time = initialTimerSetting - timeElapsed;
@@ -135,7 +129,7 @@ Timer.prototype = {
 	},
 	convertTime: function (milliseconds) {
 		var timer = this,
-			totalSeconds = parseInt(milliseconds / 1000, 10),
+			totalSeconds = parseInt(milliseconds / timer.MILLIS_PER_SECOND, 10),
 			totalMinutes = parseInt(totalSeconds / 60, 10),
 			seconds = timer.formatWithLeadingZero(parseInt(totalSeconds % 60, 10)),
 			minutes = timer.formatWithLeadingZero(parseInt(totalMinutes % 60, 10)),
@@ -144,12 +138,11 @@ Timer.prototype = {
 		return [hours, minutes, seconds].join(":");
 	},
 	formatWithLeadingZero: function (time) {
-		// This returns multiple data types depending on args
-		return (time < 10 ? "0" : "") + time; // + ""; <-- consider adding so always string format
+		return (time < 10 ? "0" : "") + time;
 	},
 	displayTime: function () {
 		var timer = this;
 
-		document.getElementById(timer.timerId).innerHTML = timer.convertTime(timer.time);
+		timer.timeDisplay.innerHTML = timer.convertTime(timer.time);
 	}
 };

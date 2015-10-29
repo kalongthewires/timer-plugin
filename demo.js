@@ -1,4 +1,4 @@
-var myTimer = new IntervalTimer({
+var myTimer = new Timer({
     timerId: 'time',
     interval: '10'
 });

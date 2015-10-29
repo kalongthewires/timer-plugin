@@ -20,14 +20,14 @@ h1 {
     margin: 20px 0;
 }
 
-#time {
+.timer-display {
     background-color: #fff;
     margin: 17px 0 1px;
     padding: 20px 0;
     text-align: center;
 }
 
-#time div {
+.timer-display div {
     display:inline;
 }
 

@@ -20,16 +20,22 @@
 		<div class="container-full">
 
 			<h1>Timer</h1>
-	        <div class="container">
+	        <div data-timer class="container">
+
 	            <div class="button-panel">
-	                <input type="button" class="button" id="increment" value="+" />
-	                <input type="button" class="button" id="decrement" value="-" />
+
+	                <input type="button" class="button" data-time-changer="increment" value="+" />
+	                <input type="button" class="button" data-time-changer="decrement" value="-" />
+
 	            </div>
-	            <div id="time">
-	            </div>
+
+	            <div data-time-display class="timer-display"></div>
+
 	            <div class="button-panel">
-	                <input type="button" class="button" id="start" value="Start" />
-	                <input type="button" class="button" id="stop-clear" value="Stop/Clear" />
+
+	                <input data-start type="button" class="button" value="Start" />
+	                <input data-stop type="button" class="button" value="Stop/Clear" />
+
 	            </div>
 	        </div>
 
